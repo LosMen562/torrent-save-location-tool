@@ -27,11 +27,14 @@ jobs:
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
 
-      - name: Install project in editable mode (with dev dependencies if any)
-        run: pip install -e ".[dev]"   # Change to -e . if no [dev] extras in pyproject.toml
+      - name: Install project and dev dependencies
+        run: |
+          pip install -e ".[dev]"   # Installs your project + pytest, ruff, etc. if listed in pyproject.toml
+          # If you don't have [dev] extras yet, use the line below instead:
+          # pip install -e . pytest ruff
 
       - name: Run Ruff (linting)
-        uses: astral-sh/ruff-action@v3   # Automatically installs and runs `ruff check`
+        uses: astral-sh/ruff-action@v3
 
       - name: Run tests
         run: pytest
