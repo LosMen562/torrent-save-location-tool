@@ -1,4 +1,5 @@
 import requests
+import csv
 from urllib.parse import urljoin
 
 # ==============================
@@ -28,26 +29,35 @@ if resp.text != "Ok.":
 torrents_url = urljoin(QB_HOST, "/api/v2/torrents/info")
 torrents = session.get(torrents_url).json()
 
+
 # ==============================
 # OUTPUT
 # ==============================
-output_file = "torrent_save_locations.txt"
+csv_file = "torrent_save_locations.csv"
 
-with open(output_file, "w", encoding="utf-8") as f:
-    f.write("=" * 100 + "\n")
-    f.write(f"{'NAME':40} {'STATE':12} {'CATEGORY':10} SAVE PATH\n")
-    f.write("=" * 100 + "\n")
+with open(csv_file, "w", newline="", encoding="utf-8") as f:
+    writer = csv.writer(f)
 
+    # Header
+    writer.writerow([
+        "Name",
+        "State",
+        "Category",
+        "Progress (%)",
+        "Size (GB)",
+        "Save Path"
+    ])
+
+    # Rows
     for t in torrents:
-        name = t.get("name", "")[:40]
-        state = t.get("state", "")
-        category = t.get("category", "")
-        save_path = t.get("save_path", "")
+        writer.writerow([
+            t.get("name", ""),
+            t.get("state", ""),
+            t.get("category", ""),
+            round(t.get("progress", 0) * 100, 2),
+            round(t.get("size", 0) / (1024 ** 3), 2),
+            t.get("save_path", "")
+        ])
 
-        line = f"{name:40} {state:12} {category:10} {save_path}\n"
-        f.write(line)
-
-    f.write("=" * 100 + "\n")
-    f.write(f"Total torrents: {len(torrents)}\n")
-
-print(f"Export complete → {output_file}")
+print(f"CSV export complete → {csv_file}")
+print(f"Total torrents exported: {len(torrents)}")
