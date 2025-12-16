@@ -1,6 +1,7 @@
-import requests
 import csv
 from urllib.parse import urljoin
+
+import requests
 
 # ==============================
 # CONFIG
