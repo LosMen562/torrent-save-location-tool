@@ -5,7 +5,7 @@ CONFIG_PATH = Path(__file__).parent.parent.parent / "config.json"  # Adjust if n
 
 
 def load_config():
-    with open(CONFIG_PATH, "r") as f:
+    with open(CONFIG_PATH) as f:
         return json.load(f)
 
 
