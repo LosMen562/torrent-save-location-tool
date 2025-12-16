@@ -1,0 +1,10 @@
+{
+    "default_save_path": "C:\\Users\\lb562\\Downloads\\Torrents",
+    "move_completed": true,
+    "categories": {
+      "Movies": "C:\\Media\\Movies",
+      "TV": "C:\\Media\\TV Shows",
+      "Software": "C:\\Software"
+    },
+    "torrent_client": "qBittorrent"
+  }
